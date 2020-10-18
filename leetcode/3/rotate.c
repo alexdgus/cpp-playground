@@ -5,8 +5,9 @@
 #include "rotate.h"
 
 void rotateIterate(int *nums, int numsSize, int k) {
+  if(!nums || k < 1 || numsSize < 2) return;
   k = k % numsSize;
-  if(k < 1 || numsSize < 2 || k == numsSize) return;
+  if(k == 0) return;
   int *newArray = (int*)malloc(numsSize * sizeof(int));
   for (int i = k; i < numsSize; i++) {
     newArray[i] = nums[i - k];
@@ -19,8 +20,9 @@ void rotateIterate(int *nums, int numsSize, int k) {
 }
 
 void rotateChunk(int *nums, int numsSize, int k) {
+  if(!nums || k < 1 || numsSize < 2) return;
   k = k % numsSize;
-  if(k < 1 || numsSize < 2 || k == numsSize) return;
+  if(k == 0) return;
   int frontSize = numsSize - k;
   int *front = (int*)malloc(frontSize * sizeof(int));
   int *back = (int*)malloc(k * sizeof(int));
@@ -48,29 +50,12 @@ while(si < ei)
 }
 
 void rotateInPlace(int *nums, int numsSize, int k) {
+  if(!nums || k < 1 || numsSize < 2) return;
   k = k % numsSize;
-  printf("k: %d\n", k);
-  printf("numsSize: %d\n", numsSize);
-  if(k < 1 || numsSize < 2 || k == numsSize) return;
+  if(k == 0) return;
   reverse(nums, 0, k-1);
   reverse(nums, k, numsSize - 1);
-  for(int x = 0; x < numsSize; x++)
-  {
-    printf("%d, ", nums[x]);
-  }
-  printf("\n");
-  int i = 0;
-  int j = numsSize - 1;
-  int revIndex = (k < numsSize - k) ? k : numsSize - k;
-  while(i < j)
-  {
-    swap(nums, i, j);
-    i++;
-    j--;
-  }
-  for(int x = 0; x < numsSize; x++)
-  {
-    printf("%d, ", nums[x]);
-  }
-  printf("\n");
+  int chunk1Size = (k * 2) % numsSize;
+  reverse(nums, 0, chunk1Size - 1);
+  reverse(nums, chunk1Size, numsSize - 1);
 }
