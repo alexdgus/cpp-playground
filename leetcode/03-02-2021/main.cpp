@@ -1,22 +1,32 @@
-/* Alice has n candies, where the ith candy is of type candyType[i]. Alice
- * noticed that she started to gain weight, so she visited a doctor.
+/* You have a set of integers s, which originally contains all the numbers from
+ * 1 to n. Unfortunately, due to some error, one of the numbers in s got
+ * duplicated to another number in the set, which results in repetition of one
+ * number and loss of another number. */
 
- * The doctor advised Alice to only eat n / 2 of the candies she has (n is
- * always even). Alice likes her candies very much, and she wants to eat the
- * maximum number of different types of candies while still following the
- * doctor's advice.
+/* You are given an integer array nums representing the data status of this set
+ * after the error. */
 
- * Given the integer array candyType of length n, return the maximum number of
- * different types of candies she can eat if she only eats n / 2 of them. */
+/* Find the number that occurs twice and the number that is missing and return
+ * them in the form of an array. */
 
 class Solution {
 public:
-    int distributeCandies(vector<int>& candyType) {
-        std::unordered_set<int> types;
-        for(int i = 0; i < candyType.size(); i++) {
-            types.insert(candyType[i]);
+    vector<int> findErrorNums(vector<int>& nums) {
+        bool array[100001];
+        memset(array, 0, sizeof(array));
+        vector<int> result;
+        for(int i = 0; i < nums.size(); i++) {
+            if(array[nums[i]]) {
+                result.push_back(nums[i]);
+            }
+            array[nums[i]] = true;
         }
-        int halfSize = candyType.size() / 2;
-        return halfSize < types.size() ? halfSize : types.size();
+        for(int i = 1; i <= nums.size(); i++) {
+            if(!array[i]) {
+                result.push_back(i);
+                break;
+            }
+        }
+        return result;
     }
 };
